@@ -6,7 +6,6 @@ public class BoundsHandler : MonoBehaviour {
 
 
 
-    public float enemySpeed;
     private Vector2 _maxCoords;
     private Vector2 _minCoords;
     
@@ -46,8 +45,8 @@ public class BoundsHandler : MonoBehaviour {
         Transform MinZ = GameObject.Find("MinZ").transform;
 
 
-        _maxCoords = new Vector2(MaxX.position.x - 2.0f, MaxZ.position.z - 1f);
-        _minCoords = new Vector2(MinX.position.x + 2.0f, MinZ.position.z + 1f);
+        _maxCoords = new Vector2(MaxX.position.x - 0.7f, MaxZ.position.z - 0.6f);
+        _minCoords = new Vector2(MinX.position.x + 0.7f, MinZ.position.z + .6f);
     }
 
 

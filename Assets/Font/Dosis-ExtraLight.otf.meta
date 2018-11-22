@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 0e7010b7fb7e4fa69a7d3deae85211ab
+timeCreated: 1540555114
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: 'Dosis-ExtraLight'
+  fontNames:
+  - Dosis
+  fallbackFontReferences:
+  customCharacters:
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData:
+  assetBundleName:
+  assetBundleVariant:

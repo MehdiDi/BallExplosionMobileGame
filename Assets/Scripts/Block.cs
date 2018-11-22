@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Block : MonoBehaviour {
 
-    private float _moveSpeed;
+    private float _moveSpeed = 3;
     [SerializeField]
     private Vector3 _dir;
     private Rigidbody rb;
@@ -12,7 +12,7 @@ public class Block : MonoBehaviour {
     private EnemySpawner.Spawn _spawn;
 
     public float StartMoving = 1f;
-
+    private Vector2 _offset;
     private BoundsHandler _boundsHandler;
 
     public EnemySpawner.Spawn Spawn
@@ -28,34 +28,49 @@ public class Block : MonoBehaviour {
         }
     }
 
-    private void Awake()
+    private Vector2 maxCoords;
+    private Vector2 minCoords;
+    private bool _canChange = true;
+
+
+
+    public float MoveSpeed
     {
-        
+        get { return _moveSpeed; }
+        set { _moveSpeed = value; }
+    }
+
+    public Vector2 Offset
+    {
+        get
+        {
+            return _offset;
+        }
+
+        set
+        {
+            _offset = value;
+        }
     }
 
     void Start () {
         _boundsHandler = GameObject.Find("EnemyHandler").GetComponent<BoundsHandler>();
         rb = GetComponent<Rigidbody>();
-        
 
-        _moveSpeed = _boundsHandler.enemySpeed;
-        switch(Spawn)
+        _dir = getDirection(Spawn);
+
+        maxCoords = _boundsHandler.MaxCoords;
+        minCoords = _boundsHandler.MinCoords;
+
+        if (gameObject.name.Contains("1"))
         {
-            case EnemySpawner.Spawn.TopLeft:
-                _dir = new Vector3(Random.Range(3, 0.1f), 0, Random.Range(-3, -0.15f));
-                break;
-            case EnemySpawner.Spawn.TopRight:
-                _dir = new Vector3(Random.Range(-3, -0.1f), 0, Random.Range(-3, -0.15f));
-                break;
-            case EnemySpawner.Spawn.BottomLeft:
-                _dir = new Vector3(Random.Range(3, 0.1f), 0, Random.Range(3, 0.15f));
-                break;
-            case EnemySpawner.Spawn.BottomRight:
-                _dir = new Vector3(Random.Range(-3, -0.1f), 0, Random.Range(3, 0.15f));
-                break;
-        }
 
-        
+            minCoords += Offset - new Vector2(.05f, .05f);
+            maxCoords -= Offset + new Vector2(.05f, .05f);
+            if (gameObject.name.Contains("1"))
+                minCoords += new Vector2(0.25f, 0);
+        }
+        StartCoroutine(CollisionTime(StartMoving));
     }
 	
 	void Update () {
@@ -72,12 +87,13 @@ public class Block : MonoBehaviour {
 
         if (rb.velocity != Vector3.zero)
             rb.velocity = Vector3.zero;
+
 	}
 
     private void CheckPosition()
     {
-        Vector2 maxCoords = _boundsHandler.MaxCoords;
-        Vector2 minCoords = _boundsHandler.MinCoords;
+        if (!_canChange)
+            return;
 
         if (transform.position.x >= maxCoords.x || transform.position.x <= minCoords.x)
             ChangeDirection('H');
@@ -86,6 +102,30 @@ public class Block : MonoBehaviour {
         if (transform.position.z >= maxCoords.y || transform.position.z <= minCoords.y)
             ChangeDirection('V');
 
+        StartCoroutine(changeTimer(0.15f));
+
+    }
+
+    private Vector3 getDirection(EnemySpawner.Spawn spawn)
+    {
+        Vector3 direction = Vector3.zero;
+        switch (spawn)
+        {
+            case EnemySpawner.Spawn.TopLeft:
+                direction = new Vector3(Random.Range(3, 0.1f), 0, Random.Range(-3, -0.15f));
+                break;
+            case EnemySpawner.Spawn.TopRight:
+                direction = new Vector3(Random.Range(-3, -0.1f), 0, Random.Range(-3, -0.15f));
+                break;
+            case EnemySpawner.Spawn.BottomLeft:
+                direction = new Vector3(Random.Range(3, 0.1f), 0, Random.Range(3, 0.15f));
+                break;
+            case EnemySpawner.Spawn.BottomRight:
+                direction = new Vector3(Random.Range(-3, -0.1f), 0, Random.Range(3, 0.15f));
+                break;
+            
+        }
+        return direction;
     }
 
     private void ChangeDirection(char direction)
@@ -117,17 +157,19 @@ public class Block : MonoBehaviour {
         }
     }
 
+    private void SetColor()
+    {
+        
+    }
+
     private void OnCollisionEnter(Collision other)
     {
 
         if (other.gameObject.tag == "player" || other.gameObject.tag == "block")
         {
-
-
-
-
+            
             Vector3 player = other.gameObject.transform.position;
-            if (Mathf.Abs(player.z - transform.position.z) < 0.9f)
+            if (Mathf.Abs(player.z - transform.position.z) < 0.5f)
             {
                 if (player.x > transform.position.x)
                     ChangeDirection('l');
@@ -143,5 +185,31 @@ public class Block : MonoBehaviour {
             }
             
         }
+    }
+
+    private IEnumerator CollisionTime(float waitTime)
+    {
+        float colTimer = 0;
+        do
+        {
+            colTimer += Time.deltaTime;
+            yield return null;
+        } while (colTimer < waitTime);
+
+        gameObject.layer = 8;
+        
+    }
+
+    private IEnumerator changeTimer(float t)
+    {
+        _canChange = false;
+        float colTimer = 0;
+
+        do
+        {
+            colTimer += Time.deltaTime;
+            yield return null;
+        } while (colTimer > t);
+        _canChange = true;
     }
 }

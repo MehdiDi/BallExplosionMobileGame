@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80345ce5620689131a94ef3d4efe167d, type: 3}
+  m_Name: 'TapdaqSettings'
+  m_EditorClassIdentifier: 
+  ios_applicationID: '5abcad36da101c0006851d4b'
+  ios_clientKey: 'e9a3662f-2e97-4702-943e-ec32bc2537c0'
+  android_applicationID: '5b8007711c9d440006e3d6bf'
+  android_clientKey: 'e9a3662f-2e97-4702-943e-ec32bc2537c0'
+  isDebugMode: 0
+  autoReloadAds: 0

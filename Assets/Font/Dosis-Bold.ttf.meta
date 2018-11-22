@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e4b3290f8d2f4cedb9be57f5583f2d87
+timeCreated: 1540555114
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: 'Dosis-Bold'
+  fontNames:
+  - Dosis
+  fallbackFontReferences:
+  customCharacters:
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData:
+  assetBundleName:
+  assetBundleVariant:
